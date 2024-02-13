@@ -80,3 +80,41 @@ SELECT sum(quantity)
 FROM BIT_DB.FebSales
 WHERE location like '%Los Angeles%'
 GROUP BY product;
+
+SELECT distinct location
+,count(orderID)
+FROM BIT_DB.JanSales
+WHERE location like '%New York%'
+AND length(orderid) = 6
+AND orderid <> 'Order ID'
+GROUP BY orderID
+HAVING count(orderID)>2;
+
+SELECT distinct product
+,sum(quantity) as quantity
+FROM BIT_DB.FebSales
+WHERE product like '%headphones%'
+GROUP BY product;
+
+SELECT avg(quantity*price)
+FROM BIT_DB.customers cust
+
+LEFT JOIN BIT_DB.FebSales Feb
+ON cust.order_id=Feb.orderID
+
+WHERE length(orderid) = 6 
+AND orderid <> 'Order ID';
+
+SELECT sum(quantity)/count(cust.acctnum)
+FROM BIT_DB.customers cust
+LEFT JOIN BIT_DB.FebSales Feb
+ON cust.order_id=Feb.orderID
+WHERE length(orderid) = 6
+AND orderid <> 'Order ID';
+
+SELECT product
+,sum(quantity*price)
+FROM BIT_DB.JanSales
+GROUP BY  product
+ORDER BY  sum(quantity*price) desc
+LIMIT 1;
